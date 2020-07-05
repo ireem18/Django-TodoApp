@@ -1,0 +1,56 @@
+{% extends "homebase.html" %}
+{% load static %}
+<script>
+    // Check #x
+    $( "#myCheckbox" ).prop( "checked", true );
+    // Uncheck #x
+    $( "#myCheckbox" ).prop( "checked", false );
+</script>
+
+{% block content %}
+<div class="container d-flex justify-content-center mt-10 table-responsive" >
+        <table class="table" style="margin-top:20px;">
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Note</th>
+                    <th scope="col">Create Date</th>
+                    <th scope="col">Update Date</th>
+                    <th scope="col">Edit</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Done</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for rs in todos %}
+                {% if rs.clicked %}
+                    <tr>
+                        <td>{{rs.type}}</td>
+                        <td>{{rs.note}}</td>
+                        <td>{{rs.create_at}}</td>
+                        <td>{{rs.update_at}}</td>
+                        <td><a class="btn btn-danger" href="/user/todoEdit/{{rs.id}}">Edit</a></td>
+                        <td><a onclick="return confirm('Emin misiniz?')" class="btn btn-danger" href="/user/todoDelete/{{rs.id}}">Delete </a></td>
+                        <td>
+                            <a class="btn btn-info" href="{% url 'todo_completed' rs.id %}" role="button">Done</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{rs.type}}</td>
+                        <td>{{rs.note}}</td>
+                        <td>{{rs.create_at}}</td>
+                        <td>{{rs.update_at}}</td>
+                        <td><a class="btn btn-danger" href="/user/todoEdit/{{rs.id}}">Edit</a></td>
+                        <td><a onclick="return confirm('Emin misiniz?')" class="btn btn-danger" href="/user/todoDelete/{{rs.id}}">Delete </a></td>
+                        <td>
+                            <a class="btn btn-info" href="{% url 'todo_no_completed' rs.id %}" role="button">Not Done</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+</div>
+{% endblock %}
+
